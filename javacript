@@ -1,0 +1,14 @@
+function calculateElectricityBill(units, ratePerUnit) {
+    if (units < 0 || ratePerUnit < 0) {
+        return "Invalid input. Units and rate must be positive.";
+    }
+
+    let totalBill = units * ratePerUnit;
+    return `Your electricity bill is: R${totalBill.toFixed(2)}`;
+}
+
+// Example usage
+let unitsConsumed = 250;  // Change this value based on usage
+let rate = 1.50;  // Rate per unit in Rand (or any currency)
+
+console.log(calculateElectricityBill(unitsConsumed, rate));
