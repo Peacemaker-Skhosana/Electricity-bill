@@ -1,0 +1,104 @@
+Django Model Definition & Iris Dataset Visualization
+
+Part 1: Correct Django Model Definition
+The proper Django model definition with a name field and timestamp is:
+
+python
+from django.db import models
+
+class Tour(models.Model):
+    name = models.CharField(max_length=100)  # Optimal for names
+    created_at = models.DateTimeField(auto_now_add=True)  # Full timestamp
+
+Why this is correct:
+- `CharField` is ideal for names (better than `TextField`)
+- `DateTimeField` captures both date and time (unlike `DateField` or `TimeField`)
+- `auto_now_add=True` automatically sets timestamp on creation
+
+Part 2: Iris Dataset Visualization
+
+python
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_iris
+import pandas as pd
+
+Load data with error handling
+try:
+    iris = load_iris()
+    df = pd.DataFrame(iris.data, columns=iris.feature_names)
+    df['species'] = iris.target
+    df['species_name'] = df['species'].map({0: 'setosa', 1: 'versicolor', 2: 'virginica'})
+except Exception as e:
+    print(f"Error loading dataset: {e}")
+    exit()
+
+ Set style
+plt.style.use('seaborn')
+sns.set_palette('pastel')
+
+ 1. Line Chart (Petal Length Over Samples)
+plt.figure(figsize=(10, 5))
+plt.plot(df.index, df['petal length (cm)'], label='Petal Length')
+plt.title('Petal Length Trend Across Samples', fontsize=14)
+plt.xlabel('Sample Index')
+plt.ylabel('Length (cm)')
+plt.legend()
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig('line_chart.png')
+plt.show()
+
+2. Bar Chart (Average Measurements by Species)
+plt.figure(figsize=(10, 5))
+df.groupby('species_name').mean().plot(kind='bar')
+plt.title('Average Measurements by Iris Species', fontsize=14)
+plt.xlabel('Species')
+plt.ylabel('Mean Value (cm)')
+plt.xticks(rotation=0)
+plt.tight_layout()
+plt.savefig('bar_chart.png')
+plt.show()
+
+ 3. Histogram (Sepal Width Distribution)
+plt.figure(figsize=(10, 5))
+sns.histplot(df['sepal width (cm)'], bins=15, kde=True)
+plt.title('Distribution of Sepal Width', fontsize=14)
+plt.xlabel('Sepal Width (cm)')
+plt.ylabel('Frequency')
+plt.tight_layout()
+plt.savefig('histogram.png')
+plt.show()
+
+ 4. Scatter Plot (Sepal vs Petal Length)
+plt.figure(figsize=(10, 5))
+sns.scatterplot(
+    x='sepal length (cm)',
+    y='petal length (cm)',
+    hue='species_name',
+    data=df,
+    s=100
+)
+plt.title('Sepal vs Petal Length by Species', fontsize=14)
+plt.xlabel('Sepal Length (cm)')
+plt.ylabel('Petal Length (cm)')
+plt.legend(title='Species')
+plt.tight_layout()
+plt.savefig('scatter_plot.png')
+plt.show()
+```
+
+Key Insights from Visualizations
+1. Line Chart**: Shows petal length varies significantly across samples
+2. Bar Chart**: Virginica has the largest average petal length
+3. Histogram**: Sepal width follows approximately normal distribution
+4. **Scatter Plot**: Clear separation between species when comparing sepal/petal lengths
+
+Best Practices Demonstrated
+ Proper error handling for data loading  
+ Professional styling with Seaborn  
+ Complete labeling (titles, axes, legends)  
+ Multiple visualization types  
+ Saved outputs for reporting  
+
+This solution combines correct Django model definition with comprehensive data visualization using Python's best tools.
