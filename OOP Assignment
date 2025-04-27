@@ -1,0 +1,142 @@
+Question 1
+class Superhero:
+    def __init__(self, name, secret_identity, powers, weakness, energy_level=100):
+        self.name = name
+        self.secret_identity = secret_identity
+        self.powers = powers
+        self.weakness = weakness
+        self.energy_level = energy_level
+        self.is_hero = True  # All instances are heroes by default
+
+    def use_power(self, power_index):
+        if self.energy_level <= 0:
+            print(f"{self.name} is too exhausted to use powers!")
+            return
+        
+        if 0 <= power_index < len(self.powers):
+            power = self.powers[power_index]
+            print(f"{self.name} uses {power}!")
+            self.energy_level -= 10
+        else:
+            print("Invalid power selection!")
+
+    def rest(self):
+        print(f"{self.name} takes a well-deserved rest.")
+        self.energy_level = min(100, self.energy_level + 30)
+
+    def encounter_weakness(self):
+        print(f"Oh no! {self.name} encountered {self.weakness}!")
+        self.energy_level -= 30
+        if self.energy_level <= 0:
+            print(f"{self.name} has been defeated!")
+
+    def __str__(self):
+        return (f"Superhero: {self.name}\n"
+                f"Secret Identity: {self.secret_identity}\n"
+                f"Powers: {', '.join(self.powers)}\n"
+                f"Weakness: {self.weakness}\n"
+                f"Energy: {self.energy_level}%")
+
+# Inheritance example: AntiHero inherits from Superhero but has different behavior
+class AntiHero(Superhero):
+    def __init__(self, name, secret_identity, powers, weakness, energy_level=100):
+        super().__init__(name, secret_identity, powers, weakness, energy_level)
+        self.is_hero = False  # Override the default value
+
+    def use_power(self, power_index):
+        if self.energy_level <= 0:
+            print(f"{self.name} is too exhausted to cause mayhem!")
+            return
+        
+        if 0 <= power_index < len(self.powers):
+            power = self.powers[power_index]
+            print(f"{self.name} uses {power} for evil purposes!")
+            self.energy_level -= 15  # Antiheroes use more energy
+        else:
+            print("Invalid power selection!")
+
+    def rest(self):
+        print(f"{self.name} plots world domination while resting.")
+        self.energy_level = min(100, self.energy_level + 20)  # Recovers less energy
+
+# Example usage
+if __name__ == "__main__":
+    superman = Superhero(
+        name="Superman",
+        secret_identity="Clark Kent",
+        powers=["Super strength", "Heat vision", "Flight", "Freeze breath"],
+        weakness="Kryptonite"
+    )
+    
+    deadpool = AntiHero(
+        name="Deadpool",
+        secret_identity="Wade Wilson",
+        powers=["Regeneration", "Master swordsman", "Breaking the fourth wall"],
+        weakness="Unstable mental state"
+    )
+    
+    print(superman)
+    superman.use_power(2)  # Uses flight
+    superman.encounter_weakness()
+    
+    print("\n")
+    
+    print(deadpool)
+    deadpool.use_power(1)  # Uses Master swordsman
+    deadpool.rest()
+      Question 2 
+      class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def move(self):
+        raise NotImplementedError("Subclasses must implement this method")
+    
+    def speak(self):
+        raise NotImplementedError("Subclasses must implement this method")
+
+class Bird(Animal):
+    def move(self):
+        return f"{self.name} the bird is flying! 🕊️"
+    
+    def speak(self):
+        return "Tweet tweet!"
+
+class Fish(Animal):
+    def move(self):
+        return f"{self.name} the fish is swimming! 🐠"
+    
+    def speak(self):
+        return "Blub blub!"
+
+class Snake(Animal):
+    def move(self):
+        return f"{self.name} the snake is slithering! 🐍"
+    
+    def speak(self):
+        return "Hiss hiss!"
+
+class Dog(Animal):
+    def move(self):
+        return f"{self.name} the dog is running! 🐕"
+    
+    def speak(self):
+        return "Woof woof!"
+
+# Function demonstrating polymorphism
+def animal_showcase(animals):
+    for animal in animals:
+        print(animal.move())
+        print(animal.speak())
+        print()  # Blank line for spacing
+
+# Example usage
+if __name__ == "__main__":
+    animals = [
+        Bird("Sky"),
+        Fish("Bubbles"),
+        Snake("Slithers"),
+        Dog("Rex")
+    ]
+    
+    animal_showcase(animals)
